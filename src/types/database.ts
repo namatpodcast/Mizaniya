@@ -28,6 +28,7 @@ export interface Database {
           icon?: string
           created_at?: string
         }
+        Relationships: []
       }
       transactions: {
         Row: {
@@ -72,8 +73,13 @@ export interface Database {
           attachment_url?: string | null
           created_at?: string
         }
+        Relationships: []
       }
     }
+    Views: Record<string, never>
+    Functions: Record<string, never>
+    Enums: Record<string, never>
+    CompositeTypes: Record<string, never>
   }
 }
 

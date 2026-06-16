@@ -1,16 +1,18 @@
+'use client'
+
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import type { Session, User } from '@supabase/supabase-js'
 import { supabase } from '../lib/supabase'
 
 const DEFAULT_CATEGORIES = [
   { name: 'Food & Dining', color: '#f59e0b', icon: 'utensils' },
-  { name: 'Transport', color: '#3b82f6', icon: 'car' },
-  { name: 'Housing', color: '#8b5cf6', icon: 'home' },
-  { name: 'Shopping', color: '#ec4899', icon: 'shopping-bag' },
-  { name: 'Health', color: '#10b981', icon: 'heart' },
+  { name: 'Transport',     color: '#3b82f6', icon: 'car' },
+  { name: 'Housing',       color: '#8b5cf6', icon: 'home' },
+  { name: 'Shopping',      color: '#ec4899', icon: 'shopping-bag' },
+  { name: 'Health',        color: '#10b981', icon: 'heart' },
   { name: 'Entertainment', color: '#f97316', icon: 'play' },
-  { name: 'Salary', color: '#0d9488', icon: 'briefcase' },
-  { name: 'Other', color: '#6b7280', icon: 'wallet' },
+  { name: 'Salary',        color: '#0d9488', icon: 'briefcase' },
+  { name: 'Other',         color: '#6b7280', icon: 'wallet' },
 ]
 
 interface AuthContextValue {
@@ -28,9 +30,7 @@ async function seedDefaultCategories(userId: string) {
     .select('id')
     .eq('user_id', userId)
     .limit(1)
-
   if (existing && existing.length > 0) return
-
   await supabase.from('categories').insert(
     DEFAULT_CATEGORIES.map((c) => ({ ...c, user_id: userId }))
   )
@@ -54,13 +54,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
       }
     )
-
     return () => subscription.unsubscribe()
   }, [])
 
-  const signOut = async () => {
-    await supabase.auth.signOut()
-  }
+  const signOut = async () => { await supabase.auth.signOut() }
 
   return (
     <AuthContext.Provider value={{ session, user: session?.user ?? null, loading, signOut }}>
