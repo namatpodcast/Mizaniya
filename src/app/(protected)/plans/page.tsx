@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Check, Sparkles, Crown, Zap } from 'lucide-react'
-import { useToast } from '@/components/Toast'
 
 type PlanId = 'free' | 'pro' | 'premium'
 
@@ -71,7 +71,7 @@ const PLANS: Plan[] = [
 const CURRENT_PLAN: PlanId = 'free'
 
 export default function Plans() {
-  const { toast } = useToast()
+  const router = useRouter()
   const [billing, setBilling] = useState<'monthly' | 'yearly'>('monthly')
 
   const priceFor = (monthly: number) =>
@@ -159,7 +159,7 @@ export default function Plans() {
 
               <button
                 disabled={isCurrent}
-                onClick={() => toast(`This is a demo — ${plan.name} checkout isn't wired up yet.`)}
+                onClick={() => router.push(`/checkout?plan=${plan.id}`)}
                 className={`w-full py-2.5 rounded-xl text-sm font-medium transition-colors ${
                   isCurrent
                     ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-default'
